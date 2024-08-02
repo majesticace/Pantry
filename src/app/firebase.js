@@ -1,27 +1,32 @@
-// Import the functions you need from the SDKs you need
+import { useEffect } from 'react';
+import { getAnalytics, isSupported } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDhQRanmOZjQvCQDHfEbGtElAz9GMlvahM",
-  authDomain: "pantry-4a4de.firebaseapp.com",
-  projectId: "pantry-4a4de",
-  storageBucket: "pantry-4a4de.appspot.com",
-  messagingSenderId: "663237997108",
-  appId: "1:663237997108:web:86609baf472fb7d1561061",
-  measurementId: "G-RNCQVFCPQZ",
-};
+const MyComponent = () => {
+  useEffect(() => {
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID",
+      measurementId: "YOUR_MEASUREMENT_ID"
+    };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+    const app = initializeApp(firebaseConfig);
 
-// Initialize Firestore
-const firestore = getFirestore(app);
+    if (typeof window !== 'undefined') {
+      isSupported().then(supported => {
+        if (supported) {
+          const analytics = getAnalytics(app);
+          // Use analytics here
+        }
+      }).catch(console.error);
+    }
+  }, []);
 
-export { firestore };
-export const auth = getAuth(app);
+  return <div>My Component</div>;
+}
+
+export default MyComponent;
